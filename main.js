@@ -3,11 +3,11 @@ const electron = require('electron');
 
 if (!window) var window = global;
 
-window.appDir = (process.platform != 'linux') ?  './ForBoot/appData' :
+window.appDataDir = (process.platform != 'linux') ?  './ForBoot/appData' :
                 (process.arch == 'x64') ? '/usr/local/appData' :
-                '/boot/appData/';
+                '/boot/appData';
 
-const config = require(appDir + '/config.js');
+const config = require(appDataDir + '/config.js');
 
 if (config.preventStartup) process.exit(0);
 
@@ -40,6 +40,7 @@ function createWindow() {
     //kiosk: true,
     scrollBounce: false,
     title: 'TemplateProject',
+    offscreen: false,
   });
 
   mainWindow.maximize();
