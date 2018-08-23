@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REPO_NAME=Electron_Template
+REPO_NAME=LidarScanner
 ACCOUNT=heidgera
 
 echo -e "\nInstalling node:"

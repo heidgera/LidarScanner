@@ -16,7 +16,7 @@ html, body {
 }
 
 body {
-  background-color: #2a2a2a;
+  background-color: #aa0000;
 }
 
 .bin {
@@ -25,7 +25,7 @@ body {
 	top: -0.5vh;
   width:100vw;
   height: 1vh;
-  background-color: #fff;
+  background-color: #0f0;
   border-radius: 0.5vh;
 	transform-origin: left center;
 }
