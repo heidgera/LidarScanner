@@ -4,7 +4,7 @@ var remote = require('electron').remote;
 
 var process = remote.process;
 
-//remote.getCurrentWindow().closeDevTools();
+remote.getCurrentWindow().closeDevTools();
 
 var obtains = [
   './src/Hardware.js',
@@ -42,7 +42,7 @@ obtain(obtains, ({ Hardware })=> {
 
     sensor.on('lidarRead', (data)=> {
       console.log(data);
-      bin[data.angle].style.width = ((data.distance / 127) * 100) + 'vw';
+      bin[data.angle].style.width = ((data.distance / 127) * 90) + 'vw';
     });
 
     document.onkeypress = (e)=> {
