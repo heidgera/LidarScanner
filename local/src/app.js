@@ -42,7 +42,7 @@ obtain(obtains, ({ Hardware })=> {
 
     sensor.on('lidarRead', (data)=> {
       console.log(data);
-      bin[data.angle].style.width = ((data.distance / 127) * 75) + 'vw';
+      bin[data.angle].style.width = ((data.distance / 127) * 100) + 'vw';
     });
 
     document.onkeypress = (e)=> {
