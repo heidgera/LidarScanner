@@ -29,6 +29,7 @@ obtain(obtains, ({ Hardware }, { map }, fs)=> {
   var val = 0;
 
   var bin = [];
+  var segments = 256;
 
   var calib = {
     minAngle: 0,
@@ -52,10 +53,10 @@ obtain(obtains, ({ Hardware }, { map }, fs)=> {
 
   exports.app.start = ()=> {
 
-    for (var i = 0; i < 128; i++) {
+    for (var i = 0; i < segments; i++) {
       var next = µ('+div', µ('#bins'));
       next.className = 'bin';
-      next.style.transform = `rotate(${1.05 * (180 * i / 128)}deg)`;
+      next.style.transform = `rotate(${1.05 * (180 * i / segments)}deg)`;
       bin.push(next);
 
     }
@@ -70,7 +71,7 @@ obtain(obtains, ({ Hardware }, { map }, fs)=> {
 
       console.log(data);
 
-      var angle = Math.floor(map(data.angle, calib.minAngle, calib.maxAngle, 0, 127));
+      var angle = Math.floor(map(data.angle, calib.minAngle, calib.maxAngle, 0, segments - 1));
 
       console.log(angle);
 
