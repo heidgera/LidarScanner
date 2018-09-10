@@ -24,8 +24,8 @@ body {
   left: 50vw;
 	top: -0.5vh;
   width:100vw;
-  height: 3vh;
+  height: 2vh;
   background-color: #0f0;
-  border-radius: 1.5vh;
+  border-radius: 1vh;
 	transform-origin: left center;
 }
