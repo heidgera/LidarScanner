@@ -29,7 +29,7 @@ obtain(obtains, ({ Hardware }, { map }, fs)=> {
   var val = 0;
 
   var bin = [];
-  var segments = 256;
+  var segments = 128;
 
   var calib = {
     minAngle: 0,
