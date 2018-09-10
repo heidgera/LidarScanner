@@ -55,7 +55,7 @@ obtain(obtains, ({ Hardware }, { map }, fs)=> {
     for (var i = 0; i < 128; i++) {
       var next = µ('+div', µ('#bins'));
       next.className = 'bin';
-      next.style.transform = `rotate(${180 * i / 127}deg)`;
+      next.style.transform = `rotate(${1.05 * (180 * i / 128)}deg)`;
       bin.push(next);
 
     }
