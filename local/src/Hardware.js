@@ -1,13 +1,8 @@
 obtain(['µ/serialParser.js', 'events'], ({ serialParser }, EventEmitter)=> {
   const POT_CHANGE = 1;
   const LIDAR_READ = 2;
-  const REQUEST_READ = 3;
+  //const GET_DISTANCE = 4;
   const READY = 127;
-
-  ////////// Light strip defines:
-  const BEGIN =  1;
-  const SHOW =  2;
-  const SET_COLOR =  3;
 
   class Hardware extends EventEmitter{
     constructor(conf) {
@@ -17,10 +12,14 @@ obtain(['µ/serialParser.js', 'events'], ({ serialParser }, EventEmitter)=> {
 
       parser.on(LIDAR_READ, (data)=> {
         _this.emit('lidarRead', {
-          angle: data[0],
-          distance: data[1],
+          angle: data[0] + (data[1] << 7),
+          distance: data[2] + (data[3] << 7),
         });
       });
+
+      _this.read = ()=> {
+        parser.sendPacket([1, LIDAR_READ]);
+      };
 
       var readyInt;
 

@@ -8,9 +8,11 @@ remote.getCurrentWindow().closeDevTools();
 
 var obtains = [
   './src/Hardware.js',
+  'µ/utilities.js',
+  'fs',
 ];
 
-obtain(obtains, ({ Hardware })=> {
+obtain(obtains, ({ Hardware }, { map }, fs)=> {
 
   exports.app = {};
 
@@ -28,6 +30,26 @@ obtain(obtains, ({ Hardware })=> {
 
   var bin = [];
 
+  var calib = {
+    minAngle: 0,
+    maxAngle: 2000,
+    minDist: 0,
+    maxDist: 2000,
+  };
+
+  var keys = {
+    z: 'minAngle',
+    x: 'maxAngle',
+    q: 'minDist',
+    w: 'maxDist',
+  };
+
+  var confDir = '.currentConfig.json';
+  if (fs.existsSync(confDir)) {
+    let data = fs.readFileSync(confDir); //file exists, get the contents
+    calib = JSON.parse(data);
+  }
+
   exports.app.start = ()=> {
 
     for (var i = 0; i < 128; i++) {
@@ -41,12 +63,29 @@ obtain(obtains, ({ Hardware })=> {
     console.log('started');
 
     sensor.on('lidarRead', (data)=> {
+      if (calib.minAngle == -1) calib.minAngle = data.angle;
+      else if (calib.maxAngle == -1) calib.maxAngle = data.angle;
+      else if (calib.minDist == -1) calib.minDist = data.distance;
+      else if (calib.maxDist == -1) calib.maxDist = data.distance;
+
       console.log(data);
-      bin[data.angle].style.width = ((data.distance / 127) * 90) + 'vw';
+
+      var angle = Math.floor(map(data.angle, calib.minAngle, calib.maxAngle, 0, 127));
+
+      console.log(angle);
+
+      var dist = data.distance / calib.maxDist;
+      if (bin[angle]) bin[angle].style.width = (dist * 100) + 'vh';
     });
 
     document.onkeypress = (e)=> {
-      //if (e.key == ' ') console.log('Space pressed'), hardware.digitalWrite(13, 1);
+      if (keys.hasOwnProperty(e.key)) {
+        calib[keys[e.key]] = -1;
+        console.log('Calibrating ' + keys[e.key]);
+        sensor.read();
+      } else if (e.key == 's') {
+        fs.writeFileSync(confDir, JSON.stringify(calib));
+      }
     };
 
     document.onkeyup = (e)=> {
